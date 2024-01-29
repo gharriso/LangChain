@@ -35,10 +35,11 @@ vectorStore=MongoDBAtlasVectorSearch.from_connection_string(
     index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,
 )
 
-question="Who is George Water"
+# Prompt the user to enter a question
 
-print("similarity")
 
+
+question = input("Please enter a question: ")
  
 results = vectorStore.similarity_search_with_score(
     query=question,
@@ -47,7 +48,8 @@ results = vectorStore.similarity_search_with_score(
 
 # Display results
 for result in results:
-    print(result )
+    # print just the page_content field
+    print(result[0].page_content )
 
 qa_retriever = vectorStore.as_retriever(
     search_type="similarity",
