@@ -27,7 +27,7 @@ if __name__ == "__main__":
     data = loader.load()
 
     # Split docs
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=200, chunk_overlap=0)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
     docs = text_splitter.split_documents(data)
 
     # Insert the documents in MongoDB Atlas Vector Search
