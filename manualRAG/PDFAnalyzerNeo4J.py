@@ -1,57 +1,66 @@
-# See; https://www.mongodb.com/developer/products/atlas/rag-atlas-vector-search-langchain-openai/
-from pymongo import MongoClient
+# Answer questions about a PDF file using the RAG model
+ 
+# TODO: Maintain the context of the conversation
+
+
+
+from langchain_community.document_loaders import TextLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import MongoDBAtlasVectorSearch
-from langchain_community.document_loaders import DirectoryLoader
+from langchain.text_splitter import CharacterTextSplitter
+from langchain_community.vectorstores import Neo4jVector
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_openai import OpenAI
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
-#from langchain.memory import BufferMemory
+
+ 
+import random
+import time
 import os
+import sys
 
-debug=0
+debug=False
 
-# Check to see if the environment variables are set
-# If not, set them
-if "vectorUser" not in os.environ:
-    print("vectorUser not set")
-    os._exit(1)
-if "OPENAI_API_KEY" not in os.environ:
-    print("OPENAI_API_KEY not set")
+# Get the name of a PDF file from the command line
+pdf_name = sys.argv[1]
+if not os.path.exists(pdf_name):
+    print("The PDF file does not exist. Exiting program.")
     os._exit(1)
 
-MONGO_URI=os.environ["vectorUser"]
-OPENAI_API_KEY=os.environ["OPENAI_API_KEY"]
-
-client = MongoClient(MONGO_URI)
-dbName = "vectorSearch"
-collectionName = "tbj"
-collection = client[dbName][collectionName]
-ATLAS_VECTOR_SEARCH_INDEX_NAME = "vector_index"
-EMBEDDING_FIELD_NAME = "embedding"
+# Load the document, split it into chunks, embed each chunk and load it into the vector store.
+ 
+# Vector DB connection
+url='bolt://localhost:7687'
+username="neo4j"
+password=input("Please enter the password for the Neo4j database: ")
 
 
-# NB: Data already loaded into MongoDB Atlas using the ingest.py script
 
-embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 
-#vectorStore = MongoDBAtlasVectorSearch( collection, embeddings )
-vectorStore=MongoDBAtlasVectorSearch.from_connection_string(
-    MONGO_URI,
-    dbName + "." + collectionName,
-    OpenAIEmbeddings(disallowed_special=()),
-    index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,
+# Load the document, split it into chunks, embed each chunk and load it into the vector store.
+print(pdf_name)
+loader = PyPDFLoader(pdf_name)
+data = loader.load()
+
+    # Split docs
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
+docs = text_splitter.split_documents(data)
+# Instantiate Neo4j vector from documents
+vectorStore =  Neo4jVector.from_documents(
+    docs,
+    OpenAIEmbeddings(),
+    url=url,
+    username=username,
+    password=password
 )
 
-# Prompt the user to enter a question
-
 def answerQuestion(debug, vectorStore):
-    question = input("Please enter a question about The Brave Japanese: ")
+    question = input("Please enter a question about the PDF: ")
     # If question is blank, exit program
     if not question:
         print("No question entered. Exiting program.")
         os._exit(1)
-
 
 
 # Display results if debug is true
@@ -93,10 +102,5 @@ Question: {question}
     print(docs["result"])
     print()
 
- 
-
 while True:
     answerQuestion(debug, vectorStore)
-
-
- 
