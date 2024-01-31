@@ -58,16 +58,16 @@ def answerQuestion(debug, vectorStore):
 
     if debug: 
         results = vectorStore.similarity_search_with_score(
-    query=question,
-    k=5,)   
+            query=question,
+            k=5,)   
         for result in results:
         # print just the page_content field
             print(result[0].page_content )
 
     qa_retriever = vectorStore.as_retriever(
-    search_type="similarity",
-    search_kwargs={"k": 25},
-)
+            search_type="similarity",
+            search_kwargs={"k": 25},
+        )
 
 
     prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
@@ -81,7 +81,7 @@ Question: {question}
 
 
     qa = RetrievalQA.from_chain_type(
-    llm=OpenAI(),
+    llm=OpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-3.5-turbo-instruct"),
     chain_type="stuff",
     retriever=qa_retriever,
     return_source_documents=True,
@@ -92,11 +92,11 @@ Question: {question}
 
     print(docs["result"])
     print()
-
+    if debug:
+        for doc in docs["source_documents"]:
+            print(doc)
+            print()
  
 
 while True:
     answerQuestion(debug, vectorStore)
-
-
- 
