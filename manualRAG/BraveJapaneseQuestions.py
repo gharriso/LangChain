@@ -9,7 +9,7 @@ from langchain.prompts import PromptTemplate
 #from langchain.memory import BufferMemory
 import os
 
-debug=0
+debug=True
 
 # Check to see if the environment variables are set
 # If not, set them
@@ -90,12 +90,13 @@ Question: {question}
 
     docs = qa.invoke({"query": question})
 
-    print(docs["result"])
+
     print()
     if debug:
         for doc in docs["source_documents"]:
-            print(doc)
+            print(doc.page_content)
             print()
+    print(docs["result"])
  
 
 while True:
