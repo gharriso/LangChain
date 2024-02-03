@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import MongoDBAtlasVectorSearch
 from langchain_community.document_loaders import DirectoryLoader
-from langchain_openai import OpenAI
+from langchain_openai import OpenAI,ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 #from langchain.memory import BufferMemory
@@ -81,7 +81,7 @@ Question: {question}
 
 
     qa = RetrievalQA.from_chain_type(
-    llm=OpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-3.5-turbo-instruct"),
+    llm=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-4"),
     chain_type="stuff",
     retriever=qa_retriever,
     return_source_documents=True,
