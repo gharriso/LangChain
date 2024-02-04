@@ -14,6 +14,10 @@ from langchain_openai import OpenAI
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores.redis import Redis
+from langchain_community import vectorstores
+for module in dir(vectorstores):
+    print(module)
+
 
  
 import random

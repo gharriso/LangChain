@@ -1,70 +1,96 @@
 # See; https://www.mongodb.com/developer/products/atlas/rag-atlas-vector-search-langchain-openai/
-from pymongo import MongoClient
-from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import MongoDBAtlasVectorSearch
-from langchain_community.document_loaders import DirectoryLoader
+ 
+ 
+
 from langchain_openai import OpenAI,ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 from langchain_community.llms import Ollama 
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_openai import OpenAIEmbeddings
+import lancedb
+from langchain_community.vectorstores import LanceDB
 
- 
+# List all the methods in LanceDB
+for module in dir(LanceDB):
+    print(module)
 
-
-#from langchain.memory import BufferMemory
 import os
 import sys
 
 debug=False
 
-
-
-# Check to see if the environment variables are set
-# If not, set them
 if "vectorUser" not in os.environ:
     print("vectorUser not set")
     os._exit(1)
+
 if "OPENAI_API_KEY" not in os.environ:
     print("OPENAI_API_KEY not set")
     os._exit(1)
 
-MONGO_URI=os.environ["vectorUser"]
-OPENAI_API_KEY=os.environ["OPENAI_API_KEY"]
-
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 gpt4=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-4",max_tokens=1000)
 gpt3=OpenAI(openai_api_key=OPENAI_API_KEY,max_tokens=1000)
 
 llm=gpt3 #Default to GPT-3
 
-if  len(sys.argv) > 1:  
-    if sys.argv[1] == "gpt4":
+if len(sys.argv) < 1:
+    print("Usage: python3 multiModel.py <PDF file> [gpt4|phi|llama2]")
+    os._exit(1)
+
+if  len(sys.argv) > 2:  
+    if sys.argv[2] == "gpt4":
         llm = gpt4
-    elif sys.argv[1] == "phi":
+    elif sys.argv[2] == "phi":
         llm = Ollama(model="phi")
-    elif sys.argv[1] == "llama2":
+    elif sys.argv[2] == "llama2":
         llm = Ollama(model="llama2")
 
-client = MongoClient(MONGO_URI)
-dbName = "vectorSearch"
-collectionName = "tbj"
-collection = client[dbName][collectionName]
-ATLAS_VECTOR_SEARCH_INDEX_NAME = "vector_index"
-EMBEDDING_FIELD_NAME = "embedding"
+pdf_name = sys.argv[1]
+if not os.path.exists(pdf_name):
+    print("The PDF file does not exist. Exiting program.")
+    os._exit(1)
+ 
+# Vector DB connection
+def loadFile(pdf_name):
+    vectorStore = lancedb.connect("/tmp/lancedb")
+    tables=vectorStore.table_names()
+    
+    embeddings=OpenAIEmbeddings()
+    table= os.path.basename(pdf_name)
+    # if the table is already in the tables list, delete it
+    if not table in tables:
+        print('Creating new lanceDB table')
+        table = vectorStore.create_table(
+        table,
+        data=[
+            {
+                "vector": embeddings.embed_query("Hello World"),
+                "text": "Hello World",
+                "id": "1",
+            }
+        ],
+        mode="overwrite",
+        )
+        
+        loader = PyPDFLoader(pdf_name)
+        data = loader.load()
+
+        # Split docs
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
+        docs = text_splitter.split_documents(data)
+        vectorStore = LanceDB.from_documents(docs, OpenAIEmbeddings(), connection=table)
+    else:
+        print('Using existing lanceDB table')
+        table=vectorStore.open_table(table)
+        dir(table)
+  
+        vectorStore = vectorStore.from_existing_index(connection=table)
+
+    return vectorStore
 
 
-# NB: Data already loaded into MongoDB Atlas using the ingest.py script
-
-embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
-
-#vectorStore = MongoDBAtlasVectorSearch( collection, embeddings )
-vectorStore=MongoDBAtlasVectorSearch.from_connection_string(
-    MONGO_URI,
-    dbName + "." + collectionName,
-    OpenAIEmbeddings(disallowed_special=()),
-    index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,
-)
-
-# Prompt the user to enter a question
 
 def answerQuestion(debug, vectorStore):
     print()
@@ -120,6 +146,7 @@ Question: {question}
             print()
     print(docs["result"])
  
+vectorStore = loadFile(pdf_name)
 
 while True:
     answerQuestion(debug, vectorStore)
