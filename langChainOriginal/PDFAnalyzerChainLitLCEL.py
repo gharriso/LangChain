@@ -39,6 +39,15 @@ async def on_chat_start():
         ).send()
 
     file = files[0]
+    # report the attributes of the file object:
+    print(dir(file))
+    print(file.name)
+    print(file.path)
+    print(file.content_type)
+    print(file.size)
+    print(file.url)
+    print(file.type)
+    print(file.content)
 
     # Notifying the user about processing
     processing_msg = cl.Message(
