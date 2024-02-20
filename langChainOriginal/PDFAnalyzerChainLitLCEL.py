@@ -14,6 +14,7 @@ from langchain_community.vectorstores import FAISS
 from langchain.schema.runnable import Runnable, RunnablePassthrough, RunnableConfig
 import streamlit as st  
 import os
+import sys
  
 
 
@@ -26,7 +27,19 @@ OPENAI_API_KEY=os.environ["OPENAI_API_KEY"]
 gpt4=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-4",max_tokens=5000)
 gpt3=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name='gpt-3.5-turbo-16k',max_tokens=1000)
 llama2=Ollama(model="llama2")
-model=gpt4
+
+model=gpt3
+
+if "LLM" in os.environ:
+    if os.environ["LLM"] == "gpt4":
+        model=gpt4
+    elif os.environ["LLM"] == "gpt3":
+        model=gpt3
+    elif os.environ["LLM"] == "llama2":
+        model=llama2
+    else:
+        model=Ollama(model=os.environ["LLM"])
+ 
 
 @cl.on_chat_start
 async def on_chat_start():
@@ -66,11 +79,6 @@ async def on_chat_start():
         vectorStore = FAISS.from_documents(docs, OpenAIEmbeddings())
         vectorStore.save_local(vectorStoreName)
         persisted_vectorstore = FAISS.load_local(vectorStoreName, embeddings)
-
-        qa_retriever = persisted_vectorstore.as_retriever(
-                search_type="similarity",
-                search_kwargs={"k": 50},
-            )
 
     # Inform the user about readiness
     processing_msg.content = f"I am ready to answer questions about `{file.name}`."
