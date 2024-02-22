@@ -11,11 +11,16 @@ from langchain_community.llms import Ollama
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema import StrOutputParser
 from langchain_community.vectorstores import FAISS
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema.runnable import Runnable, RunnablePassthrough, RunnableConfig
+from langchain_community.embeddings import OllamaEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+
+
 import streamlit as st  
 import os
-import sys
- 
+import logging
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
 
 if "OPENAI_API_KEY" not in os.environ:
@@ -24,22 +29,33 @@ if "OPENAI_API_KEY" not in os.environ:
 
 OPENAI_API_KEY=os.environ["OPENAI_API_KEY"]
 
+GOOGLE_AI_KEY = os.getenv("GOOGLE_AI_KEY")
+
 gpt4=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-4",max_tokens=5000)
 gpt3=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name='gpt-3.5-turbo-16k',max_tokens=1000)
+gemini= ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_AI_KEY)
 llama2=Ollama(model="llama2")
 
-model=gpt3
+model=gemini
 
 if "LLM" in os.environ:
     if os.environ["LLM"] == "gpt4":
         model=gpt4
+        embeddings=OpenAIEmbeddings()
     elif os.environ["LLM"] == "gpt3":
         model=gpt3
+        embeddings=OpenAIEmbeddings()
     elif os.environ["LLM"] == "llama2":
         model=llama2
+        embeddings = OllamaEmbeddings()
+    elif os.environ["LLM"] == "gemini":
+        model=gemini
+        embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_AI_KEY)
     else:
         model=Ollama(model=os.environ["LLM"])
+        embeddings = OllamaEmbeddings()
  
+logging.info("model: {}".format(model))
 
 @cl.on_chat_start
 async def on_chat_start():
@@ -64,7 +80,6 @@ async def on_chat_start():
 
     vectorStoreName=os.path.splitext(file.name)[0]+'.faiss'
     print(vectorStoreName)
-    embeddings = OpenAIEmbeddings()
     if os.path.exists(vectorStoreName):
         processing_msg.content = f"Loading existingvector store"
         await processing_msg.update()
@@ -76,7 +91,7 @@ async def on_chat_start():
         pdf_loader = PyPDFLoader(file_path=file.path)
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
         docs = pdf_loader.load_and_split(text_splitter=text_splitter)
-        vectorStore = FAISS.from_documents(docs, OpenAIEmbeddings())
+        vectorStore = FAISS.from_documents(docs, embeddings)
         vectorStore.save_local(vectorStoreName)
         persisted_vectorstore = FAISS.load_local(vectorStoreName, embeddings)
 
