@@ -32,8 +32,7 @@ if os.environ.get("DEBUG", "").lower() == "true":
     verbose=True
     logging.getLogger().setLevel(logging.DEBUG)
     
-chat_history = []
-memory = ConversationBufferWindowMemory( k=5)  #TODO: Use this instead of chat_history
+ 
 
 if "OPENAI_API_KEY" not in os.environ:
     print("OPENAI_API_KEY not set")
@@ -46,8 +45,8 @@ if "GOOGLE_AI_KEY" not in os.environ:
 
  
 OPENAI_API_KEY=os.environ["OPENAI_API_KEY"]
-gpt4=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-4",max_tokens=1000)
-gpt3=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name='gpt-3.5-turbo-16k',max_tokens=1000)
+gpt4=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-4",max_tokens=4000)
+gpt3=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name='gpt-3.5-turbo-16k',max_tokens=4000)
 gemini= ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=os.environ["GOOGLE_AI_KEY"])
 llm = gpt3
 prompt = 'gpt3> '
@@ -60,11 +59,14 @@ prompt = 'gpt3> '
 
 
 # Initialize the chat history
-chat_history = []
-
+ 
+aggregate_input=""
 while True:
     # Get the user's input
     user_input = input(prompt)
+    if user_input == 'exit':
+        print("Exiting program.")
+        os._exit(1)
 
     # Check if the user wants to switch models
     if user_input.startswith('use '):
@@ -80,19 +82,26 @@ while True:
             prompt = 'gemini> '
         else:
             print('Unknown model:', model_name)
-    else:
-        # Add the user's input to the chat history
-        chat_history.append(('user', user_input))
-
-
+    elif user_input=="go":
+                
+        prompt="""Please do a rewrite of the following text. 
+        The text is intended for a reasonably tech-literal general audience and is part 
+        of a technical blog or article.  Correct any grammatical errors, and change 
+        the phrasing to match the language typical of popular technology articles in mainstream journals 
+        such as the new york times.  Feel free to change the wording but please preserve the overall sentance structure. 
+        Here's the text: """+aggregate_input
+        logging.debug(prompt)
+ 
         chain = llm | StrOutputParser()
         logging.debug(chain)
-        # Invoking the chain, storing the result
-        response = chain.invoke(user_input)
-        # Displaying the generated title
-
-        # Add the model's response to the chat history
-        chat_history.append((prompt[:-2], response))
+ 
+        response = chain.invoke(prompt)
+ 
 
         # Print the model's response
-        print(prompt, response)
+        print("===============================================")
+        print(response)
+        print("===============================================")
+        aggregate_input=""
+    else:
+        aggregate_input+=user_input
