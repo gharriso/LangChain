@@ -22,7 +22,7 @@ import os
 import sys
 import logging
 
-logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.ERROR)
 
 debug=False
 verbose=False
@@ -65,6 +65,8 @@ chat_history = []
 while True:
     # Get the user's input
     user_input = input(prompt)
+    if not user_input:
+        sys.exit(0)
 
     # Check if the user wants to switch models
     if user_input.startswith('use '):
@@ -86,7 +88,6 @@ while True:
 
 
         chain = llm | StrOutputParser()
-        print(chain)
         # Invoking the chain, storing the result
         response = chain.invoke(user_input)
         # Displaying the generated title
