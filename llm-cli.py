@@ -2,8 +2,8 @@
  
 
 from langchain_openai import ChatOpenAI
-
-from langchain_community.llms import Ollama 
+from langchain_anthropic import ChatAnthropic 
+from langchain_community.llms import Ollama
 from langchain.memory import ConversationBufferWindowMemory
 from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
@@ -42,24 +42,21 @@ if "OPENAI_API_KEY" not in os.environ:
 if "GOOGLE_AI_KEY" not in os.environ:
     print("GOOGLE_API_KEY not set")
     os._exit(1)
-    
-
+   
+if "ANTHROPIC_API_KEY" not in os.environ:
+    print("ANTHROPIC_API_KEY not set")
+    os._exit(1)
  
+
 OPENAI_API_KEY=os.environ["OPENAI_API_KEY"]
 gpt4=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-4",max_tokens=1000)
 gpt3=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name='gpt-3.5-turbo-16k',max_tokens=1000)
 gemini= ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=os.environ["GOOGLE_AI_KEY"])
+claude = ChatAnthropic(model="claude-2.1",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] )
 llm = gpt3
 prompt = 'gpt3> '
     
- 
-
-
-
-# Set the initial model to GPT-3
-
-
-# Initialize the chat history
+  
 chat_history = []
 
 while True:
@@ -78,6 +75,9 @@ while True:
         elif model_name == 'gemini':
             llm = gemini
             prompt = 'gemini> '
+        elif model_name == 'claude':
+            llm = claude
+            prompt = 'claude> '
         else:
             print('Unknown model:', model_name)
     else:
