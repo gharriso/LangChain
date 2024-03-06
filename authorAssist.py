@@ -53,13 +53,6 @@ cliPrompt = 'gpt3> '
     
  
 
-
-
-# Set the initial model to GPT-3
-
-
-# Initialize the chat history
- 
 aggregate_input=""
 while True:
     # Get the user's input
@@ -88,9 +81,10 @@ while True:
         The text is intended for a reasonably tech-literal general audience and is part 
         of a technical blog or article.  Correct any grammatical errors, and change 
         the phrasing to match the language typical of popular technology articles in mainstream journals 
-        such as the new york times.  Feel free to change the wording but please preserve the overall sentance structure. 
+        such as the new york times.  Feel free to change the wording but please preserve the overall sentence structure. 
         Here's the text: """+aggregate_input
         logging.debug(aiPrompt)
+ 
  
         chain = llm | StrOutputParser()
         logging.debug(chain)
