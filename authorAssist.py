@@ -49,7 +49,7 @@ gpt4=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-4",max_tokens=4000
 gpt3=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name='gpt-3.5-turbo-16k',max_tokens=4000)
 gemini= ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=os.environ["GOOGLE_AI_KEY"])
 llm = gpt3
-prompt = 'gpt3> '
+cliPrompt = 'gpt3> '
     
  
 
@@ -63,7 +63,7 @@ prompt = 'gpt3> '
 aggregate_input=""
 while True:
     # Get the user's input
-    user_input = input(prompt)
+    user_input = input(cliPrompt)
     if user_input == 'exit':
         print("Exiting program.")
         os._exit(1)
@@ -73,29 +73,29 @@ while True:
         model_name = user_input.split(' ')[1]
         if model_name == 'gpt3':
             llm = gpt3
-            prompt = 'gpt3> '
+            cliPrompt = 'gpt3> '
         elif model_name == 'gpt4':
             llm = gpt4
-            prompt = 'gpt4> '
+            cliPrompt = 'gpt4> '
         elif model_name == 'gemini':
             llm = gemini
-            prompt = 'gemini> '
+            cliPrompt = 'gemini> '
         else:
             print('Unknown model:', model_name)
     elif user_input=="go":
                 
-        prompt="""Please do a rewrite of the following text. 
+        aiPrompt="""Please do a rewrite of the following text. 
         The text is intended for a reasonably tech-literal general audience and is part 
         of a technical blog or article.  Correct any grammatical errors, and change 
         the phrasing to match the language typical of popular technology articles in mainstream journals 
         such as the new york times.  Feel free to change the wording but please preserve the overall sentance structure. 
         Here's the text: """+aggregate_input
-        logging.debug(prompt)
+        logging.debug(aiPrompt)
  
         chain = llm | StrOutputParser()
         logging.debug(chain)
  
-        response = chain.invoke(prompt)
+        response = chain.invoke(aiPrompt)
  
 
         # Print the model's response
