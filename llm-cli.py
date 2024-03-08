@@ -4,11 +4,10 @@
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic 
 from langchain_community.llms import Ollama
-from langchain.memory import ConversationBufferWindowMemory
+
 from langchain_openai import ChatOpenAI
 from langchain_community.llms import Ollama 
-from langchain.memory import ConversationBufferWindowMemory
-from langchain.schema import StrOutputParser
+
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import ConversationChain
 from langchain_openai import ChatOpenAI
@@ -16,6 +15,8 @@ from langchain.memory import ConversationBufferMemory
 
 import os
 import logging
+import time 
+import sys
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.ERROR)
 
@@ -39,7 +40,6 @@ if os.environ.get("DEBUG", "").lower() == "true":
     logging.getLogger().setLevel(logging.DEBUG)
     
  
-
 if "OPENAI_API_KEY" not in os.environ:
     print("OPENAI_API_KEY not set")
     os._exit(1)
@@ -57,9 +57,29 @@ modelsArray= {
     "gpt4": ChatOpenAI(openai_api_key=os.environ["OPENAI_API_KEY"],model_name="gpt-4",max_tokens=1000),
     "gemini": ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=os.environ["GOOGLE_AI_KEY"]),
     "claude": ChatAnthropic(model="claude-2.1",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ),
-    "llama2": Ollama(model="llama2")
+    #"llama2": Ollama(model="llama2"),
+    #"llama2:13b": Ollama(model="llama2:13b"),
+    "phi": Ollama(model="phi"),
+    "mistral": Ollama(model="mistral"), # TODO: Check that models exist
+    "mistral": Ollama(model="mistral"),
+    "gemma": Ollama(model="gemma")
 }
-prompt,llm=selectModel("gpt3")
+
+# If the user specified a model on the command line, use that model
+if len(sys.argv) > 1:
+    model_name = sys.argv[1]
+    if model_name == 'all':
+        useAll=True
+        prompt='all> '
+    else:
+        prompt,llm=selectModel(model_name)
+        conversation = ConversationChain(
+            llm=llm,
+            verbose=verbose,
+            memory=ConversationBufferMemory()
+        )
+else:
+    prompt,llm=selectModel("gpt3")
     
   
 conversation = ConversationChain(
@@ -78,12 +98,33 @@ while True:
     # Check if the user wants to switch models
     if user_input.startswith('use '):
         model_name = user_input.split(' ')[1]
-        prompt,llm=selectModel(model_name)
-        conversation = ConversationChain(
-            llm=llm,
-            verbose=verbose,
-            memory=ConversationBufferMemory()
-        )
+        if model_name == 'all':
+            useAll=True
+            prompt='all> '
+        else:
+            useAll=False
+            prompt,llm=selectModel(model_name)
+            conversation = ConversationChain(
+                llm=llm,
+                verbose=verbose,
+                memory=ConversationBufferMemory()
+            )
     else:
-        response = conversation.predict(input=user_input)
-        print(response)
+        if useAll:
+            for model_name in modelsArray:
+                startTime=time.time()       
+                
+                print(f'\n=================== '+ model_name + ' ===================')
+                _,llm=selectModel(model_name)
+                conversation = ConversationChain(
+                    llm=llm,
+                    verbose=verbose
+                )
+                response = conversation.predict(input=user_input)
+                print(response)
+                print(f'\nElapsed time:',round((time.time()-startTime)*1000),'ms')
+        else:
+            startTime=time.time()  
+            response = conversation.predict(input=user_input)
+            print(response)
+            print(f'\nElapsed time:',round((time.time()-startTime)*1000),'ms')
