@@ -112,17 +112,21 @@ while True:
     else:
         if useAll:
             for model_name in modelsArray:
-                startTime=time.time()       
-                
-                print(f'\n=================== '+ model_name + ' ===================')
-                _,llm=selectModel(model_name)
-                conversation = ConversationChain(
-                    llm=llm,
-                    verbose=verbose
-                )
-                response = conversation.predict(input=user_input)
-                print(response)
-                print(f'\nElapsed time:',round((time.time()-startTime)*1000),'ms')
+                try:
+                    startTime = time.time()
+                    
+                    print(f'\n=================== '+ model_name + ' ===================')
+                    _, llm = selectModel(model_name)
+                    conversation = ConversationChain(
+                        llm=llm,
+                        verbose=verbose
+                    )
+                    response = conversation.predict(input=user_input)
+                    print(response)
+                    print(f'\nElapsed time:', round((time.time()-startTime)*1000), 'ms')
+
+                except Exception as e:
+                    print(f'An error occurred: {str(e)}')
         else:
             startTime=time.time()  
             response = conversation.predict(input=user_input)
