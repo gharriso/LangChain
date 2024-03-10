@@ -4,6 +4,7 @@
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic 
 from langchain_community.llms import Ollama
+from langchain_groq import ChatGroq
 
 from langchain_openai import ChatOpenAI
 from langchain_community.llms import Ollama 
@@ -59,6 +60,7 @@ modelsArray= {
     "claude": ChatAnthropic(model="claude-2.1",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ),
     #"llama2": Ollama(model="llama2"),
     #"llama2:13b": Ollama(model="llama2:13b"),
+    "groq":ChatGroq(model_name="mixtral-8x7b-32768"),
     "phi": Ollama(model="phi"),
     "mistral": Ollama(model="mistral"), # TODO: Check that models exist
     "mistral": Ollama(model="mistral"),
