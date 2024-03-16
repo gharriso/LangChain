@@ -31,9 +31,9 @@ modelsArray= {
     #"llama2": Ollama(model="llama2"),
     #"llama2:13b": Ollama(model="llama2:13b"),
     "groq":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="mixtral-8x7b-32768"),
-    "phi": Ollama(model="phi"),
-    "mistral": Ollama(model="mistral"), # TODO: Check that models exist
-    "gemma": Ollama(model="gemma")
+    #"phi": Ollama(model="phi"),
+    #"mistral": Ollama(model="mistral"), # TODO: Check that models exist
+    #"gemma": Ollama(model="gemma")
 }
 
 if "OPENAI_API_KEY" not in os.environ:

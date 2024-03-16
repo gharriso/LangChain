@@ -31,6 +31,9 @@ if len(sys.argv) > 1:
     
 # return an array of keys of the models
 modelNames = list(modelsArray.keys())
+realModels=modelNames.copy()
+# Add "all" to the array
+modelNames.append('all')
 
 col1, col2 = st.columns(2)
 llmOption=col1.radio('Select Model', modelNames)
@@ -38,13 +41,27 @@ mode=col2.radio('Select Mode', ['question', 'rewrite'])
 user_input=st.text_input('Enter your question or text')
 goButton = st.button('go')
 if goButton:
-    prompt,llm=selectModel(llmOption)
-    startTime=time.time()  
-    conversation = ConversationChain(
-            llm=llm,
-            verbose=verbose,
-            memory=ConversationBufferMemory()
-    )
-    response = conversation.predict(input=user_input)
-    st.write(response)
-    st.write(f'\nElapsed time:',round((time.time()-startTime)*1000),'ms')
+    if llmOption == 'all':
+        for model in realModels:
+            st.write(f'\nModel: {model}')
+            prompt,llm=selectModel(model)
+            startTime=time.time()  
+            conversation = ConversationChain(
+                    llm=llm,
+                    verbose=verbose,
+                    memory=ConversationBufferMemory()
+            )
+            response = conversation.predict(input=user_input)
+            st.write(response)
+            st.write(f'\nElapsed time:',round((time.time()-startTime)*1000),'ms')
+    else:
+        prompt,llm=selectModel(llmOption)
+        startTime=time.time()  
+        conversation = ConversationChain(
+                llm=llm,
+                verbose=verbose,
+                memory=ConversationBufferMemory()
+        )
+        response = conversation.predict(input=user_input)
+        st.write(response)
+        st.write(f'\nElapsed time:',round((time.time()-startTime)*1000),'ms')
