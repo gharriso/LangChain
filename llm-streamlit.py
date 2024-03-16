@@ -51,15 +51,24 @@ st.title('AI Tool')
 col1, col2 = st.columns(2)
 llmOption=col1.radio('Select Model', modelNames)
 mode=col2.radio('Select Mode', ['question', 'rewrite'])
-user_input=st.text_input('Enter your question or text')
+user_input = st.text_area('Enter your question or text')
 goButton = st.button('go')
 
 if goButton:
+    if mode == 'question':
+        aiPrompt = user_input
+    elif mode == 'rewrite':
+        aiPrompt="""Please do a rewrite of the following text. 
+        The text is intended for a reasonably tech-literal general audience and is part 
+        of a technical blog or article.  Correct any grammatical errors, and change 
+        the phrasing to match the language typical of popular technology articles in mainstream journals 
+        such as the new york times.  Feel free to change the wording but please preserve the overall sentence structure. 
+        Here's the text: """+user_input
     if llmOption == 'all':
         for model in realModels:
-            st.write(f'\nModel: {model}')
+            st.subheader(f'\nModel: {model}')
             prompt, llm = selectModel(model)
-            run_model(model, realModels, user_input)
+            run_model(model, realModels, aiPrompt)
     else:
-        run_model(llmOption, realModels, user_input)
+        run_model(llmOption, realModels, aiPrompt)
 
