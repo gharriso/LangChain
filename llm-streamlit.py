@@ -50,7 +50,7 @@ def run_model(llmOption, realModels, user_input):
 st.title('AI Tool')        
 col1, col2 = st.columns(2)
 llmOption=col1.radio('Select Model', modelNames)
-mode=col2.radio('Select Mode', ['question', 'rewrite','jagawag'])
+mode=col2.radio('Select Mode', ['question', 'rewrite','jagawag','Harrison Article'])
 user_input = st.text_area('Enter your question or text')
 goButton = st.button('go')
 
@@ -64,6 +64,9 @@ if goButton:
         the phrasing to match the language typical of popular technology articles in mainstream journals 
         such as the new york times.  Feel free to change the wording but please preserve the overall sentence structure. 
         Here's the text: """+user_input
+    elif mode == 'Harrison Article':
+        aiPrompt="""Process the following request, creating output that matches the style of Guy Harrison who writes for database trends and applications.
+         Here's the request: """+user_input
     elif mode == 'jagawag':
         aiPrompt="""Please do a rewrite of the following text as a catchy, humorous and fun communication from our
         border collie breeding company "Jagawag Kennels".   
