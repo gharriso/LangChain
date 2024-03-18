@@ -35,6 +35,13 @@ realModels=modelNames.copy()
 # Add "all" to the array
 modelNames.append('all')
 
+# Load sample text into a variable from all the files in the sampleText directory
+sampleText = ''
+for filename in os.listdir('sampleText'):
+    with open(f'sampleText/{filename}', 'r') as file:
+        sampleText += file.read() + '\n\n'
+        
+
 def run_model(llmOption, realModels, user_input):
     prompt, llm = selectModel(llmOption)
     startTime = time.time()  
@@ -43,14 +50,23 @@ def run_model(llmOption, realModels, user_input):
         verbose=verbose,
         memory=ConversationBufferMemory()
     )
+
     response = conversation.predict(input=user_input)
     st.write(response)
+
     st.write(f'\nElapsed time:', round((time.time()-startTime)*1000), 'ms')
+    # Write the prompt and the response to the llm.log file
+    with open('llm.log', 'a') as file:
+        file.write(f"\n\nModel: {llmOption}\n")
+        file.write(f'\n\n{prompt}\n{user_input}\n\n{response}')
+    print(f"\n\nModel: {llmOption}\n")
+    print(f'\n\n{prompt}\n{user_input}\n\n{response}')
+
 
 st.title('AI Tool')        
 col1, col2 = st.columns(2)
 llmOption=col1.radio('Select Model', modelNames)
-mode=col2.radio('Select Mode', ['question', 'rewrite','jagawag','Harrison Article'])
+mode=col2.radio('Select Mode', ['question', 'rewrite','jagawag','Harrison Article','fix transcription'])
 user_input = st.text_area('Enter your question or text')
 goButton = st.button('go')
 
@@ -67,6 +83,14 @@ if goButton:
     elif mode == 'Harrison Article':
         aiPrompt="""Process the following request, creating output that matches the style of Guy Harrison who writes for database trends and applications.
          Here's the request: """+user_input
+    elif mode == 'fix transcription':
+        aiPrompt="""I want you to convert the following transcription into a well-written article, suitable for popular technology articles in mainstream journals 
+        such as the new york times.  Use the text between the words "START SAMPLE" and "END SAMPLE" as a guide to the writing style. 
+        START SAMPLE
+        """ + sampleText + """
+        END SAMPLE
+        Here is the transcription that I want you to convert:
+        """+user_input
     elif mode == 'jagawag':
         aiPrompt="""Please do a rewrite of the following text as a catchy, humorous and fun communication from our
         border collie breeding company "Jagawag Kennels".   

@@ -1,0 +1,98 @@
+Quantum Computing, Blockchain and AI – what you need to know about the three technologies revolutionising software Applications
+
+
+It’s a truism that the pace of change in the human experience is increasing exponentially.   This is nothing new; in the 1970 book “Future Shock”, Alvin Toffler argued that the pace and acceleration of technological and societal change was outstripping our ability to adapt.  This was in 1970 – decades before the emergence of personal computers, smartphones, social media and the internet.  
+
+We’ve seen a lot of technological and social changes since 1970.  But I don’t think we’ve ever experienced such an abrupt leap forward in capability as was produced by the emergence of Large Language Model (LLM) generative AI.  Almost overnight, the ability of software programs to respond to human language and to generate language, computer code or visual media has jumped from rudimentary to extraordinary.  The possibilities – and threats – seem limitless. 
+
+With all the excitement surrounding AI, it's easy to overlook the decades long "AI winter" when early expectations for AI seemed unrealistic and exaggerated.  Blockchain, once hailed as a ground-breaking technology, now appears to be trapped in a period of disillusionment.  Meanwhile, Quantum computing promises to change everything, but despite massive investment, has no immediate practical application.
+
+These three technologies may seem disconnected, and the importance of quantum and blockchain may seem to fade into insignificance alongside the massive immediate impact promised by generative AI.  However, each of these technologies offer synergistic 
+
+The next generation computing stack
+
+Quantum Computing, Blockchain and GAI are distributed across different layers of the computing stack.
+
+Quantum computers operate at the most fundamental level of the stack, manipulating individual elements of information. Indeed, Quantum computing taps into the principles of quantum mechanics, leveraging the most fundamental components of the physical universe.
+
+Blockchain and related "Web3" technologies provide a framwork for network, synchronization, and storage. 
+
+AI, and in particular Generative AI, sits at the top of the technology stack, leveraging computing power, data storage, and networks to simulate intelligent behaviour.  In many cases, Generative AI may become the dominant User Interface paradigm for next generation applications. 
+
+There has been extensive coverage on these technologies independently, but the interplay between them has received scant attention. Let's navigate the landscape of this new technology stack to understand how these technologies support each other.
+
+Generative AI
+
+It’s hardly necessary to recap on the emergence of generative AI solutions such as chatGPT and their impact on software and society.  However, it probably is worth highlighting some of the most significant – and in some cases most overlooked – aspects. 
+
+Generative AI emerged from decades of work on neural network computing.  Neural networks are inspired by and somewhat modelled on the neurons that are the building blocks of the mammalian brain.  Neural networks have been in existence for some time now, and they were often mentioned in popular science fiction series like "Terminator" and "Star Trek" during the 1990s.
+
+The theory of neural networks is beyond our scope here, but it’s worth pointing out that the actual construction of the neural network is relatively trivial.  To be useful, each neuron needs to “learn” how to respond to inputs from other neurons.  At its most basic, an LLM is a set of weights that define how much “weight” each neuron places on each input. 
+
+In 2017 the paper Attention is all you Need introduced the “transformer” architecture (the “T” in “GPT”).  It defined a way for neural networks to process the relationships between elements in long input sequences.  In a way, it allows the neural network to focus on important aspects of the input data.  The transformer architecture is the fundamental breakthrough that led to the groundbreaking achievements of GPT3 and all subsequent LLMs.  The transformer architecture affected not just text generation, but also text to image systems such as DALL-E. 
+
+The transformer model, together with the order of magnitude increase in the size of the neural network and training data, led to GPT3 showing capabilities that astonished all but the most optimistic AI researcher.
+
+All talk and no action
+The language, image and code generation capabilities of modern LLMs are truly breathtaking.  Their impact on computer coding, journalism, document and web search, and graphic art cannot be overstated.
+
+However, as you try to apply LLMs in other contexts, you rapidly uncover a fundamental truth:  LLMs mostly are “all talk and no action”.  While they can generate convincing text on almost any topic, it’s hard to apply them to any automation task outside of text and graphic generation.  
+
+So for instance, while an LLM can tell you almost anything you want to know about a car, it cannot be trained to drive a car.  I like to think of current generation LLMs as the science fiction image of “brains in jars”.  While LLMs simulate many aspects of human language processing, they lack a “motor cortex” that allows them to take meaningful actions in the real world. 
+
+ 
+Figure 1 Current generations of LLMs are like the sci-fi "brain in a jar".  They lack the motor capabilities which would allow them to perform real world actions
+For those that worry about AI eventually replacing or accidently destroying humanity because of misaligned goals, this limitation may be a godsend.  
+
+Eventually I we’ll see some form of motor control added to LLMs.  And there are some initial attempts to use the outputs of an LLM as a trigger for some action based automation. But given their occasional hallucinations I doubt we’ll see them driving cars  - or in change of anything dangerous - anytime soon. 
+
+Who you going to believe – me or your lying eyes?
+
+While Generative AI has enormous potential for improving productivity and possibly even human wisdom, the near term effect will include some significant downsides.  In particular, it’s inevitably going to lead to a further erosion of trust and an increase in fraud and cyber-attacks.
+
+It’s long been anticipated that AI will eventually facilitate the production of images and other items that are virtually indistinguishable from authentic media. We are already witnessing a surge in "deep fakes," where famous figures and political leaders are inaccurately portrayed. The fabrication of still images and voice is now within the grasp of almost anyone. Lifelike video is already possible and soon will be within reach of anyone. In due course, these counterfeits will encapsulate both the superficial and profound attributes of the subject to such a degree that they could deceive anyone.  Within a year, we will have to question the authenticity of everything we see in the digital realm.
+
+Generative AI as the new User Interface 
+
+Since the widespread adoption of software applications by everyday users – pretty much since the smartphone in other words – people have had to spend an enormous amount of intellectual energy trying to work out how to get things done through a computer interface.  Everyday, millions of humans struggle with questions such as  “how to I tag my mother in a post”, “how to I see all the photos taken in a specific location”, how do “I adjust my language preference to UK English”, and so on. 
+
+Despite the advancements in software engineering, the process of interacting with software systems has not necessarily become easier. Continuous updates to applications, frameworks, and operating systems require constant attention. The techniques you used in Windows 10 may not be applicable in Windows 11, and so on.
+However, with the introduction of GAI (General Artificial Intelligence), there is now a potential for software to figure out how to perform tasks for us. Instead of learning how the computer operates, the computer can comprehend our intentions through natural language instructions. As a result, working with GAI hints at how we will increasingly interact with all applications in the future.
+Quantum Computing
+
+If Generative AI revolutionizes computing at the highest level,  Quantum computing represents a radical shift in the most fundamental building blocks of computing – the processing of atomic instructions and the storage of atomic data elements.  
+
+Calling these computing elements “atomic” is ironic.  As well as changing the nature of logical operations at the most fundamental level – what we might call “atomic” operations - quantum computers leverage the most fundamental building blocks of the universe: elementary, sub-atomic particles. 
+One of the pioneers of Quantum physics once said “If quantum mechanics hasn't profoundly shocked you, you haven't understood it yet."  The fundamentals of Quantum physics seem to challenge our very nature of reality and possibly comment upon the relationship between consciousness and reality. 
+
+Yet, quantum phyiscs is the most successful theory ever – proven again and again over decades.  And Quntum computers are real - 
+
+•	Nothing could be more fundamental that computing using the elementary particles which make up our universe. 
+•	Computation across multiple universes makes our head spin
+•	Massive opportunity for complex problems such as weather modelling, drug discovery, predictive systems and scientific research
+•	Probably the only long term answer to the unacceptable climate impact of GAI energy consumption
+•	But in the short term, a massive threat to encryption
+Blockchain 
+If AI represents a paradigm shift at the top of the computing stack, and quantum computing at the basest level -what about the middle?  Is our existing infrastructure capable of being the meat in the sandwhich between quantum and AI?
+In some respects yes, in some respects we have nothing else, but maybe blockchain and Web3 does come out of obscurity here as we transition to a new world order.
+The realm of technology fundamentally encompasses three key aspects. First, blockchain technology, primarily through cryptocurrency, was rooted in an idealistic, libertarian notion aimed at shifting financial power away from banks and creating a level playing field where money could not be manipulated. Despite these ambitions, cryptocurrency has not become a mainstream medium for transactions, limited mostly to being an asset class for speculation. This suggests a skepticism towards cryptocurrency fulfilling its role as true money within our lifetime, though it remains an interesting asset for investment.
+
+The second aspect of blockchain technology involves smart contracts and distributed applications (dApps). This innovation, inspired by libertarian ideals, sought to revive the web's original democratic, decentralized, and autonomous nature. However, the web has since evolved into a more centralized structure, with major corporations like Facebook and Google dominating aspects such as authentication and identity verification. The aspiration was that blockchain could decentralize control once again, fostering an economy and web driven by smart contracts and distributed governance. 
+
+It’s certainly true that the centralized control of key internet platforms – social networks in particular – has hampered innovation and created incentives that have led to bad outcomes. Nevertheless, the adoption of these decentralized application technologies by the general public has been minimal, hindered by significant entry barriers like the requirement for a digital wallet.
+Distributed Autonomous Applications
+Beyond crypto currency, the ability of web3 to create distributed autonomous applications created a lot of initial excitement.  The use of smart contracts for application logic, tokens as a mechanism for repressing objects and blockchain as the primary data store suggested the ability to create completely decentralized peer-to-peer alternatives to existing systems.  The example of Uber. 
+However, the barriers to adoption have remained consistently too high:
+
+* Throughput and bandwidth limitations
+•	Lack of adoption of web3 wallets that would be used for authentication 
+•	Lack of flexibility – such as was shown by the original DAO.
+
+The immutable decentralized database
+
+The third aspect of blockchain is its capacity as a secure, immutable database. Unlike conventional data storage technologies that allow for data alteration or deletion, blockchain maintains permanent records that cannot be overwritten. This feature is vital for ensuring the integrity of digital information, providing a reliable, immutable timestamp for when data was created. While blockchain has the potential to revolutionize how we verify the "who" and "when" of data creation, widespread adoption of blockchain for authentication and the establishment of a self-sovereign identity remains unlikely due to the persistence of traditional digital signing technologies, like RSA encryption. However, the unique ability of blockchain to verify the timing of data creation stands out as especially crucial in an era marked by misinformation and deepfakes, highlighting the urgent need for a verifiable storage mechanism that can authenticate records with certainty and prevent their alteration or falsification.
+
+Blockchain kill switch
+
+
+
