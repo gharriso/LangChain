@@ -30,7 +30,7 @@ modelsArray= {
     "claude3-sonnet": ChatAnthropic(model="claude-3-sonnet-20240229",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ),
     #"llama2": Ollama(model="llama2"),
     #"llama2:13b": Ollama(model="llama2:13b"),
-    "groq-gemma":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="gemma-7b-it"),
+    #"groq-gemma":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="gemma-7b-it"),
     "groq-mixtral":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="mixtral-8x7b-32768"),
     "groq-llama":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="llama2-70b-4096"),
     #"phi": Ollama(model="phi"),

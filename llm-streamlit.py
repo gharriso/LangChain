@@ -43,6 +43,8 @@ for filename in os.listdir('sampleText'):
         
 
 def run_model(llmOption, realModels, user_input):
+    print(f"\n\nModel: {llmOption}\n")
+
     prompt, llm = selectModel(llmOption)
     startTime = time.time()  
     conversation = ConversationChain(
@@ -50,7 +52,7 @@ def run_model(llmOption, realModels, user_input):
         verbose=verbose,
         memory=ConversationBufferMemory()
     )
-
+    print(f'\n\n{prompt}\n{user_input}\n\n')
     response = conversation.predict(input=user_input)
     st.write(response)
 
@@ -60,10 +62,17 @@ def run_model(llmOption, realModels, user_input):
         file.write(f"\n\nModel: {llmOption}\n")
         file.write(f'\n\n{prompt}\n{user_input}\n\n{response}')
     print(f"\n\nModel: {llmOption}\n")
-    print(f'\n\n{prompt}\n{user_input}\n\n{response}')
+    print(f'\n\n{response}')
 
 
-st.title('AI Tool')        
+st.title('AI Tool')   
+# If there is an environment variable LLM_PASSWORD then create a streamlit entry box for the password and don't proceed unless the user types a matching password
+if os.environ.get("LLM_PASSWORD"):
+    password = st.text_input('Enter Password', type='password')
+    if password != os.environ.get("LLM_PASSWORD"):
+        st.write('Incorrect password')
+        st.stop()
+     
 col1, col2 = st.columns(2)
 llmOption=col1.radio('Select Model', modelNames)
 mode=col2.radio('Select Mode', ['question', 'rewrite','jagawag','Harrison Article','fix transcription'])
