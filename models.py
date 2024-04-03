@@ -28,6 +28,8 @@ modelsArray= {
     "gemini": ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=os.environ["GOOGLE_AI_KEY"]),
     #"gemini1.5": ChatGoogleGenerativeAI(model="gemini-1.5", google_api_key=os.environ["GOOGLE_AI_KEY"]),
     "claude3-sonnet": ChatAnthropic(model="claude-3-sonnet-20240229",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ),
+    "claude3-haiku": ChatAnthropic(model="claude-3-haiku-20240307",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ),
+    "claude3-opus": ChatAnthropic(model="claude-3-opus-20240229",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ), 
     #"llama2": Ollama(model="llama2"),
     #"llama2:13b": Ollama(model="llama2:13b"),
     #"groq-gemma":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="gemma-7b-it"),
