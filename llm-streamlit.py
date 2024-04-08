@@ -75,22 +75,29 @@ if os.environ.get("LLM_PASSWORD"):
      
 col1, col2 = st.columns(2)
 llmOption=col1.radio('Select Model', modelNames)
-mode=col2.radio('Select Mode', ['question', 'rewrite','jagawag','Harrison Article','fix transcription'])
+mode=col2.radio('Select Mode', ['question', 'rewrite','critique','jagawag','Harrison Article','fix transcription'])
+target=col2.radio('Select Audience', ['technical', 'general'])
 user_input = st.text_area('Enter your question or text')
 goButton = st.button('go')
 
+
+
 if goButton:
+    if target == 'technical':
+        audience='The text is intended for a reasonably tech-literal general audience and is part of a technical blog or article.'
+    elif target == 'general':
+        audience='The text is intended for a general audience without a strong technical background.'
+        
     if mode == 'question':
         aiPrompt = user_input
     elif mode == 'rewrite':
-        aiPrompt="""Please do a rewrite of the following text. 
-        The text is intended for a reasonably tech-literal general audience and is part 
-        of a technical blog or article.  Correct any grammatical errors, and change 
+        aiPrompt="""Please do a rewrite of the following text. """+audience+""" 
+         Correct any grammatical errors, and change 
         the phrasing to match the language typical of popular technology articles in mainstream journals 
         such as the new york times.  Feel free to change the wording but please preserve the overall sentence structure. 
         Here's the text: """+user_input
     elif mode == 'Harrison Article':
-        aiPrompt="""Process the following request, creating output that matches the style of Guy Harrison who writes for database trends and applications.
+        aiPrompt="""Write a 300 word article on the following topic, creating output that matches the style of Guy Harrison who writes for database trends and applications.
          Here's the request: """+user_input
     elif mode == 'fix transcription':
         aiPrompt="""I want you to convert the following transcription into a well-written article, suitable for popular technology articles in mainstream journals 
@@ -103,6 +110,10 @@ if goButton:
     elif mode == 'jagawag':
         aiPrompt="""Please do a rewrite of the following text as a catchy, humorous and fun communication from our
         border collie breeding company "Jagawag Kennels".   
+        Here's the text: """+user_input
+    elif mode == 'critique':
+        aiPrompt="""I would like you to critique the following text.  """+audience+""" 
+        Comment on technical accuracy, clarity, and style.  Let me know if you think the text is suitable for the target audience.      
         Here's the text: """+user_input
     if llmOption == 'all':
         for model in realModels:
