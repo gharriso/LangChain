@@ -113,7 +113,8 @@ if goButton:
         Here's the text: """+user_input
     elif mode == 'critique':
         aiPrompt="""I would like you to critique the following text.  """+audience+""" 
-        Comment on technical accuracy, clarity, and style.  Let me know if you think the text is suitable for the target audience.      
+        Comment on technical accuracy, clarity, and style.  Let me know if you think the 
+        text is suitable for the target audience.    Finally, provide a minimal rewrite that addresses your key concerns and corrects any grammatical or spelling errors.  
         Here's the text: """+user_input
     if llmOption == 'all':
         for model in realModels:
