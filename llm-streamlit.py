@@ -120,7 +120,12 @@ if goButton:
         for model in realModels:
             st.subheader(f'\nModel: {model}')
             prompt, llm = selectModel(model)
-            run_model(model, realModels, aiPrompt)
+ 
+            try:
+                run_model(model, realModels, aiPrompt)
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
     else:
         run_model(llmOption, realModels, aiPrompt)
 
