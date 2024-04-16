@@ -75,8 +75,8 @@ if os.environ.get("LLM_PASSWORD"):
      
 col1, col2 = st.columns(2)
 llmOption=col1.radio('Select Model', modelNames)
-mode=col2.radio('Select Mode', ['question', 'rewrite','critique','jagawag','Harrison Article','fix transcription'])
-target=col2.radio('Select Audience', ['technical', 'general'])
+mode=col2.radio('Select Mode', ['question', 'book section','glossary','rewrite','critique','jagawag','Harrison Article','transcribe article','fix transcription'])
+target=col2.radio('Select Audience', [ 'general','technical',])
 user_input = st.text_area('Enter your question or text')
 goButton = st.button('go')
 
@@ -90,6 +90,16 @@ if goButton:
         
     if mode == 'question':
         aiPrompt = user_input
+    elif mode == 'book section':
+        aiPrompt="""Please write a section for my book 'Quantum Computing, AI and Blockchain: What you need to know about the technologies changing our world'
+        """+audience+""" 
+         The section should be about 500 words long and should provide a high-level overview of the topic. 
+        Here's the subject of the section: """+user_input
+    elif mode == 'glossary':
+        aiPrompt="""Please write a glossary for my book 'Quantum Computing, AI and Blockchain: What you need to know about the technologies changing our world'
+        """+audience+""" 
+         The description should be one or two sentences long.
+        Here's the glossary entry: """+user_input
     elif mode == 'rewrite':
         aiPrompt="""Please do a rewrite of the following text. """+audience+""" 
          Correct any grammatical errors, and change 
@@ -99,12 +109,20 @@ if goButton:
     elif mode == 'Harrison Article':
         aiPrompt="""Write a 300 word article on the following topic, creating output that matches the style of Guy Harrison who writes for database trends and applications.
          Here's the request: """+user_input
-    elif mode == 'fix transcription':
+    elif mode == 'transcribe article':
         aiPrompt="""I want you to convert the following transcription into a well-written article, suitable for popular technology articles in mainstream journals 
         such as the new york times.  Use the text between the words "START SAMPLE" and "END SAMPLE" as a guide to the writing style. 
         START SAMPLE
         """ + sampleText + """
         END SAMPLE
+        Here is the transcription that I want you to convert:
+        """+user_input
+    elif mode == 'fix transcription':
+        aiPrompt="""The following transcription was created from a voice recording.  Correct any obvious errors in the transcription, fix any grammatical errors, and
+        make the text more readable.  The text should be suitable for popular technology articles in mainstream journals.  Don't add any new information to the text.
+        
+        After the corrected transcription, warn me if you think there are any factual errors in the text. 
+        
         Here is the transcription that I want you to convert:
         """+user_input
     elif mode == 'jagawag':
