@@ -126,3 +126,5 @@ dmypy.json
 *.faiss
 
 langChainOriginal/.files/
+
+bin/

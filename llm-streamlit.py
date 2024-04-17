@@ -42,13 +42,21 @@ for filename in os.listdir('sampleText'):
         sampleText += file.read() + '\n\n'
         
 
-def run_model(llmOption, realModels, user_input):
+def run_model(llmOption, realModels, user_input, temperature=0.5,max_tokens=1000):
     print(f"\n\nModel: {llmOption}\n")
 
     prompt, llm = selectModel(llmOption)
     startTime = time.time()  
+    #if the llmOption text includes gemini or claude3  we can't pass args 
+    if 'gemini' in llmOption or 'claude3' in llmOption:
+        llm_kwargs = {}
+    else:
+        llm_kwargs = {"temperature": temperature,"max_tokens": max_tokens}
+ 
+ 
     conversation = ConversationChain(
         llm=llm,
+        llm_kwargs=llm_kwargs,
         verbose=verbose,
         memory=ConversationBufferMemory()
     )
@@ -75,8 +83,12 @@ if os.environ.get("LLM_PASSWORD"):
      
 col1, col2 = st.columns(2)
 llmOption=col1.radio('Select Model', modelNames)
+temperature=col1.slider('Select Temperature', 0.0, 2.0, 0.7)
+
 mode=col2.radio('Select Mode', ['question', 'book section','glossary','rewrite','critique','jagawag','Harrison Article','transcribe article','fix transcription'])
 target=col2.radio('Select Audience', [ 'general','technical',])
+max_tokens=col1.slider('Select Max Tokens', 0, 16000, 1000)
+
 user_input = st.text_area('Enter your question or text')
 goButton = st.button('go')
 
@@ -102,9 +114,8 @@ if goButton:
         Here's the glossary entry: """+user_input
     elif mode == 'rewrite':
         aiPrompt="""Please do a rewrite of the following text. """+audience+""" 
-         Correct any grammatical errors, and change 
-        the phrasing to match the language typical of popular technology articles in mainstream journals 
-        such as the new york times.  Feel free to change the wording but please preserve the overall sentence structure. 
+         Correct any grammatical errors, and if neccessary do minor rewrites to improve clarity.   
+         You can change the wording slightly but please preserve the overall sentence structure. 
         Here's the text: """+user_input
     elif mode == 'Harrison Article':
         aiPrompt="""Write a 300 word article on the following topic, creating output that matches the style of Guy Harrison who writes for database trends and applications.
@@ -140,10 +151,10 @@ if goButton:
             prompt, llm = selectModel(model)
  
             try:
-                run_model(model, realModels, aiPrompt)
+                run_model(model, realModels, aiPrompt, temperature)
             except Exception as e:
                 print(f"An error occurred: {e}")
 
     else:
-        run_model(llmOption, realModels, aiPrompt)
+        run_model(llmOption, realModels, aiPrompt, temperature,max_tokens)
 
