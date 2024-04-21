@@ -24,6 +24,8 @@ if "ANTHROPIC_API_KEY" not in os.environ:
     os._exit(1)
 
 modelsArray= {
+    "claude3-opus": ChatAnthropic(model="claude-3-opus-20240229",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ,max_tokens=4096), 
+    "groq-llama":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="llama3-70b-8192",max_tokens=8192),
     "gpt3": ChatOpenAI(openai_api_key=os.environ["OPENAI_API_KEY"],model_name='gpt-3.5-turbo-16k',max_tokens=1000 ),
     "gpt4": ChatOpenAI(openai_api_key=os.environ["OPENAI_API_KEY"],model_name="gpt-4",max_tokens=1000),
     "gpt4-turbo": ChatOpenAI(openai_api_key=os.environ["OPENAI_API_KEY"],model_name="gpt-4-turbo",max_tokens=1000),
@@ -32,12 +34,11 @@ modelsArray= {
     #"gemini1.5": ChatGoogleGenerativeAI(model="gemini-1.5", google_api_key=os.environ["GOOGLE_AI_KEY"]),
     "claude3-sonnet": ChatAnthropic(model="claude-3-sonnet-20240229",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ),
     "claude3-haiku": ChatAnthropic(model="claude-3-haiku-20240307",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ),
-    "claude3-opus": ChatAnthropic(model="claude-3-opus-20240229",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ,temperature=1), 
-    #"llama2": Ollama(model="llama2"),
+     #"llama2": Ollama(model="llama2"),
     #"llama2:13b": Ollama(model="llama2:13b"),
     #"groq-gemma":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="gemma-7b-it"),
     "groq-mixtral":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="mixtral-8x7b-32768"),
-    "groq-llama":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="llama2-70b-4096"),
+
     #"groq-gemma":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="Gemma-7b-lt"),
     #"phi": Ollama(model="phi"),
     #"mistral": Ollama(model="mistral"), # TODO: Check that models exist

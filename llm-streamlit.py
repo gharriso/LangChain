@@ -85,7 +85,9 @@ col1, col2 = st.columns(2)
 llmOption=col1.radio('Select Model', modelNames)
 temperature=col1.slider('Select Temperature', 0.0, 2.0, 0.7)
 
-mode=col2.radio('Select Mode', ['question', 'book section','glossary','rewrite','critique','jagawag','Harrison Article','transcribe article','fix transcription'])
+mode=col2.radio('Select Mode', ['question', 'fix transcription','book section','CopyEdit','glossary',
+                                'rewrite','critique','jagawag',
+                                'Harrison Article','transcribe article', ])
 target=col2.radio('Select Audience', [ 'general','technical',])
 max_tokens=col1.slider('Select Max Tokens', 0, 16000, 1000)
 
@@ -116,6 +118,17 @@ if goButton:
         aiPrompt="""Please do a rewrite of the following text. """+audience+""" 
          Correct any grammatical errors, and if neccessary do minor rewrites to improve clarity.   
          You can change the wording slightly but please preserve the overall sentence structure. 
+        Here's the text: """+user_input
+    elif mode == 'CopyEdit':
+        aiPrompt="""You copyediting my book 'AI, Quantum Computing and Blockchain'. """+audience+""" 
+         Correct any grammatical or spelling errors, and if neccessary do some rewrites to improve clarity 
+         or to eliminate redudancy or contradictions.   
+         You can change the wording but please preserve the overall sentence structure and maintain 
+         the writing style and meaning. 
+         
+         End the rewrite with "============================\n".
+         After the rewrite, warn me if you think there are any factual errors in the text.
+         Also list the changes you have made in the format of the UNIX diff command.
         Here's the text: """+user_input
     elif mode == 'Harrison Article':
         aiPrompt="""Write a 300 word article on the following topic, creating output that matches the style of Guy Harrison who writes for database trends and applications.
