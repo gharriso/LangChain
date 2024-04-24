@@ -107,8 +107,8 @@ if goButton:
     elif mode == 'book section':
         aiPrompt="""Please write a section for my book 'Quantum Computing, AI and Blockchain: What you need to know about the technologies changing our world'
         """+audience+""" 
-         The section should be about 500 words long and should provide a high-level overview of the topic. 
-        Here's the subject of the section: """+user_input
+         The section should be between 500-1000 words long and should provide a high-level overview of the topic. 
+          Here's the topic and some notes to work from: """+user_input
     elif mode == 'glossary':
         aiPrompt="""Please write a glossary for my book 'Quantum Computing, AI and Blockchain: What you need to know about the technologies changing our world'
         """+audience+""" 
