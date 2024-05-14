@@ -85,7 +85,7 @@ col1, col2 = st.columns(2)
 llmOption=col1.radio('Select Model', modelNames)
 temperature=col1.slider('Select Temperature', 0.0, 2.0, 0.7)
 
-mode=col2.radio('Select Mode', ['question', 'fix transcription','book section','sidebar','CopyEdit','glossary',
+mode=col2.radio('Select Mode', ['question', 'fix transcription','book section','sidebar','CopyEdit','TechEdit','glossary',
                                 'rewrite','critique',
                                 'Harrison Article','transcribe article', ])
 target=col2.radio('Select Audience', [ 'general','technical',])
@@ -134,6 +134,10 @@ if goButton:
          End the rewrite with "============================\n".
          After the rewrite, warn me if you think there are any factual errors in the text.
          Also list the changes you have made in the format of the UNIX diff command.
+        Here's the text: """+user_input
+    elif mode == 'TechEdit':
+        aiPrompt="""You a technical reviewer my book 'AI, Quantum Computing and Blockchain'. """+audience+""" 
+        Note any technical errors in the text.  For each error, note the paragraph number and the starting sentance, then describe the error. Suggest a rewritten sentance that corrects the error.
         Here's the text: """+user_input
     elif mode == 'Harrison Article':
         aiPrompt="""Write a 300 word article on the following topic, creating output that matches the style of Guy Harrison who writes for database trends and applications.
