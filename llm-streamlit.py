@@ -86,7 +86,7 @@ llmOption=col1.radio('Select Model', modelNames)
 temperature=col1.slider('Select Temperature', 0.0, 2.0, 0.7)
 
 mode=col2.radio('Select Mode', ['question', 'fix transcription','book section','sidebar','CopyEdit','TechEdit','glossary',
-                                'rewrite','critique',
+                                'rewrite','critique','callout',
                                 'Harrison Article','transcribe article', ])
 target=col2.radio('Select Audience', [ 'general','technical',])
 max_tokens=col1.slider('Select Max Tokens', 0, 16000, 1000)
@@ -114,6 +114,11 @@ if goButton:
         """+audience+""" 
          The section should be 2 or three paragraphs long and should provide a high-level overview of the topic. 
          Here's the topic and some notes to work from: """+user_input
+    elif mode == 'callout':
+        aiPrompt="""Please write a one or two sentence call out for my book 'Quantum Computing, AI and Blockchain: What you need to know about the technologies changing our world'
+        """+audience+""" 
+         The callout should be in the same style as the section text, and should emphasize a key point.
+         Here's the book section: """+user_input
     elif mode == 'glossary':
         aiPrompt="""Please write a glossary for my book 'Quantum Computing, AI and Blockchain: What you need to know about the technologies changing our world'
         """+audience+""" 

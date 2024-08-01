@@ -27,7 +27,7 @@ modelsArray= {
     "gpt4": ChatOpenAI(openai_api_key=os.environ["OPENAI_API_KEY"],model_name="gpt-4",max_tokens=1000),
     "claude3-sonnet": ChatAnthropic(model="claude-3-5-sonnet-20240620",anthropic_api_key=os.environ["ANTHROPIC_API_KEY"] ),
 #    "gpt3": ChatOpenAI(openai_api_key=os.environ["OPENAI_API_KEY"],model_name='gpt-3.5-turbo-16k',max_tokens=1000),
-    "groq-llama":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="llama2-7    0b-4096"),
+    "groq-llama":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="llama-3.1-70b-versatile"),
     "gemini": ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=os.environ["GOOGLE_AI_KEY"]),
     "gemini1.5": ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", google_api_key=os.environ["GOOGLE_AI_KEY"]),
     #"gemini1.5": ChatGoogleGenerativeAI(model="gemini-1.5", google_api_key=os.environ["GOOGLE_AI_KEY"]),
@@ -35,7 +35,7 @@ modelsArray= {
      #"llama2": Ollama(model="llama2"),
     #"llama2:13b": Ollama(model="llama2:13b"),
     #"groq-gemma":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="gemma-7b-it"),
-    "groq-mixtral":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="mixtral-8x7b-32768"),
+    #"groq-mixtral":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="mixtral-8x7b-32768"),
     #"groq-gemma":ChatGroq( groq_api_key=os.environ["GROQ_API_KEY"], model_name="Gemma-7b-lt"),
     #"phi": Ollama(model="phi"),
     #"mistral": Ollama(model="mistral"), # TODO: Check that models exist
