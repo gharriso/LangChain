@@ -32,7 +32,7 @@ if len(sys.argv) > 1:
             memory=ConversationBufferMemory()
         )
 else:
-    prompt,llm=selectModel("gpt3")
+    prompt,llm=selectModel("gpt4")
     
   
 conversation = ConversationChain(
