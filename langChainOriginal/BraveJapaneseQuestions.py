@@ -81,7 +81,7 @@ Question: {question}
 
 
     qa = RetrievalQA.from_chain_type(
-    llm=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-4"),
+    llm=ChatOpenAI(openai_api_key=OPENAI_API_KEY,model_name="gpt-4o"),
     chain_type="stuff",
     retriever=qa_retriever,
     return_source_documents=True,
