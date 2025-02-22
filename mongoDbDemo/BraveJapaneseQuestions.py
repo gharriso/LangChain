@@ -16,14 +16,14 @@ debug=True
 
 # Check to see if the environment variables are set
 # If not, set them
-if "LOCAL_ATLAS" not in os.environ:
+if "ATLAS_URI" not in os.environ:
     print("vectorUser not set")
     os._exit(1)
 if "OPENAI_API_KEY" not in os.environ:
     print("OPENAI_API_KEY not set")
     os._exit(1)
 
-MONGO_URI=os.environ["LOCAL_ATLAS"]
+MONGO_URI=os.environ["ATLAS_URI"]
 OPENAI_API_KEY=os.environ["OPENAI_API_KEY"]
 
 client = MongoClient(MONGO_URI)
@@ -47,7 +47,8 @@ vectorStore = MongoDBAtlasVectorSearch.from_connection_string(
 # Prompt the user to enter a question
 
 def answerQuestion(debug, vectorStore):
-    question = input("Please enter a question about The Brave Japanese: ")
+    #question = input("Please enter a question about The Brave Japanese: ")
+    question="What sort of side-arm did Ken have in Malaya?"
     # If question is blank, exit program
     if not question:
         print("No question entered. Exiting program.")
@@ -71,8 +72,6 @@ def answerQuestion(debug, vectorStore):
     llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, model_name="gpt-4o")
     messageTemplate = """
         Answer the user's questions based on the below context. 
-        If the context doesn't contain any relevant information to the question, 
-        don't make something up and just say "I don't know":
 
         <context>
         {context}
@@ -98,10 +97,11 @@ def answerQuestion(debug, vectorStore):
             ],
         }
     )
+    print('====================')
     print(result)
     # Print the structure of the result object
  
    
 
-while True:
-    answerQuestion(debug, vectorStore)
+
+answerQuestion(debug, vectorStore)
