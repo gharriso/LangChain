@@ -7,7 +7,7 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import MongoDBAtlasVectorSearch
 from pymongo import MongoClient
 
-MONGO_URI = os.environ["LOCAL_ATLAS"]
+MONGO_URI = os.environ["ATLAS_URI"]
 
 # Note that if you change this, you also need to change it in `rag_mongo/chain.py`
 DB_NAME = "vectorDemo"
